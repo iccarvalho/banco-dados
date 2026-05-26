@@ -21,7 +21,7 @@ VALUES (102030, 'ANA', 'JOSE', 'CLAUDIO');
 
 -- Adicionar uma nova coluna na tabela
 ALTER TABLE Alunos
-ADD COLUMN naturalidade varchar(80);
+ADD naturalidade varchar(80);
 
 -- Definir que uma coluna não tenha registros nulos
 ALTER TABLE Alunos
