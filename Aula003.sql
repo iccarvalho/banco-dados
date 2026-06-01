@@ -61,3 +61,4 @@ ADD idFor INT FOREIGN KEY REFERENCES Fornecedor(idFor);
 
 SELECT * FROM Marca;
 SELECT * FROM Produto;
+SELECT * FROM Fornecedor;

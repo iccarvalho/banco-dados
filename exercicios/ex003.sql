@@ -1,0 +1,65 @@
+USE Vendas2026;
+
+SELECT * FROM Marca;
+SELECT * FROM Produto;
+SELECT * FROM Fornecedor;
+
+-- 1. CADASTRE 3 PRODUTOS INFORMANDO SÓ O NOME E O PREÇO
+INSERT INTO Produto(nome, preco) VALUES
+    ('FANTA LARANJA 340 ml', 4.50),
+    ('AGUA COM GÁS FORS 510 mL', 2.90),
+    ('SPRITE LATA 340', 5.67);
+
+-- 2. CADASTRE 4 FORNECEDORES PREENCHENDO TODOS OS CAMPOS
+INSERT INTO Fornecedor VALUES
+    ('Fornecedor A', '000000101'),
+    ('Fornecedor B', '000000102'),
+    ('Fornecedor C', '000000103'),
+    ('Fornecedor D', '000000104');
+
+-- 3. ALTERE O NOME DA MARCA 'SKOL' PARA 'LEVÍSSIMA'
+UPDATE Marca SET nome = 'LEVÍSIMA'
+WHERE nome = 'SKOL';
+
+-- 4. CADASTRE 2 PRODUTOS INFORMANDO TODOS OS CAMPOS DA TABELA
+INSERT INTO Produto(nome, preco, cor, idMarca) VALUES
+    ('GUARANA ANTARTICA 1L', 10.79, 'MARROM', 3),
+    ('PEPSI COLA LATA 340ml', 4.38, 'PRETO', 2);
+
+-- 5. ATUALIZE O CNPJ DO FORNECEDOR CUJO idFor é 3 PARA TER VALOR '123456789'
+UPDATE Fornecedor SET cnpj = '123456789'
+WHERE idFor = 3;
+
+-- 6. ATUALIZE TODOS OS PRODUTOS QUE NÃO TÊM MARCA PARA TEREM ALGUM idMarca
+UPDATE Produto SET idMarca = 1
+WHERE idProd = 2 OR idProd = 4;
+
+UPDATE Produto SET idMarca = 2
+WHERE idProd = 6;
+
+UPDATE Produto SET idMarca = 3
+WHERE idProd = 5;
+
+UPDATE Produto SET idMarca = 4
+WHERE idProd = 3;
+
+-- 7. EXCLUA O PRODUTO DE CÓDIGO = 2
+DELETE Produto
+WHERE idProd = 2;
+
+-- 8. EXCLUA A MARCA DE CÓDIGO = 4
+UPDATE Produto SET idMarca = NULL
+WHERE idMarca = 4;
+
+DELETE Marca
+WHERE idMarca = 4;
+
+-- 9. ACRESCENTE 10% A MAIS NO PREÇO DOS PRODUTOS QUE TEM PREÇO MAIOR QUE ZERO
+UPDATE Produto SET preco = preco * 1.1
+WHERE preco > 0;
+
+-- 10. EXCLUA (APAGUE) A TABELA FORNECEDOR
+ALTER TABLE Produto
+DROP COLUMN idFor;
+
+DROP TABLE Fornecedor;
