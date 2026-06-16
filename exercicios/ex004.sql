@@ -87,7 +87,16 @@ WHERE
     data BETWEEN '2025/04/01' AND '2026/04/30';
 
 -- 13) Cadastre a especialidade 'NEUROLOGISTA' e atualize as especialidades de 2 médicos para esta nova.
+INSERT INTO especialidades VALUES
+    ('NEUROLOGISTA');
+
+UPDATE medicos SET codEsp = 70
+WHERE nome = 'KARINA' OR nome = 'RODOLFO';
 
 -- 14) Crie 3 consultas para médicos NEUROLOGISTAS no mês de maio/2026.
+INSERT INTO consultas VALUES
+    ('2026/05/05', 'UNIMED', 12, 5),
+    ('2026/05/18', 'UNIMED', 12, 1),
+    ('2026/05/20', 'SUS', 10, 6);
 
 -- 15) As consultas feitas pelos PEDIATRAS em abril/2026 devem se somente do convênio 'SUS'. Atualize essa informação.
