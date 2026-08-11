@@ -80,7 +80,7 @@ ORDER BY estoque DESC;
 
 -- 10. Adicionar nova coluna precoUnit na tabela Produtos
 ALTER TABLE Produtos
-ADD precoUnit MONEY;
+ADD preco MONEY;
 
 
 -- 11. Deletar produtos de determinadas categorias
@@ -93,9 +93,9 @@ DELETE FROM produtos
 WHERE codCat IN(1, 3, 5);
 
 
--- 12. Atualizar o preço unitário (precoUnit) com base no codProd usando CASE
+-- 12. Atualizar o preço unitário (preco) com base no codProd usando CASE
 UPDATE Produtos
-SET precoUnit = CASE codProd
+SET preco = CASE codProd
     WHEN 2 THEN 10.01
     WHEN 4 THEN 9.99
     WHEN 6 THEN 21.19
@@ -121,5 +121,5 @@ WHERE p.codCat IS NULL;
 
 -- 15. Reajustar o preço unitário dos produtos com estoque menor que 400
 UPDATE produtos
-SET precoUnit = precoUnit * 1.05
+SET preco = preco * 1.05
 WHERE estoque < 400;
