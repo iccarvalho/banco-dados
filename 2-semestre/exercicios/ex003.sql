@@ -45,32 +45,61 @@ INSERT INTO TB_CLIENTE VALUES
 --     id_pedido – inteiro identificador do pedido
 --     data – data do pedido
 
+CREATE TABLE Marca (
+    id_marca INT CONSTRAINT pk_id_marca PRIMARY KEY IDENTITY(1, 1),
+    nome VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE Produto (
+    id_pro INT CONSTRAINT pk_id_produto PRIMARY KEY IDENTITY(1, 1),
+    nome_produto VARCHAR(100),
+    preco MONEY,
+    estoque INT CONSTRAINT chk_estoque_pedido CHECK(estoque >= 0),
+    id_marca INT CONSTRAINT fk_id_marca FOREIGN KEY REFERENCES Marca(id_marca)
+);
+
+CREATE TABLE Pedido (
+    id_pedido INT CONSTRAINT pk_id_pedido PRIMARY KEY IDENTITY(1, 1),
+    data_pedido DATETIME,
+    valor_desc MONEY,
+    valor_total MONEY
+);
+
+CREATE TABLE ItemPedido (
+    id_pedido INT CONSTRAINT fk_id_pedido FOREIGN KEY REFERENCES Pedido(id_pedido),
+    id_pro INT CONSTRAINT fk_id_pro FOREIGN KEY REFERENCES Produto(id_pro),
+    qtde INT,
+    vl_unit MONEY,
+
+    CONSTRAINT pk_item_pedido PRIMARY KEY(id_pedido, id_pro) -- Chave primária composta
+);
+
 -- Defina em SQL as seguintes restrições de integridade:
 -- 1. O nome_produto é de preenchimento obrigatório.
 ALTER TABLE Produto
-ALTER column nome_produto VARCHAR(100) NOT NULL;
+ALTER COLUMN nome_produto VARCHAR(100) NOT NULL;
 
 -- 2. Todos os valores da marca na relação Produto existem na relação Marca em id_marca.
 ALTER TABLE Produto
-ADD CONSTRAINT fk_produto_marca FOREIGN KEY (id_marca) REFERENCES Marca(id_marca);
+ADD CONSTRAINT fk_id_marca FOREIGN KEY(id_marca) REFERENCES Marca(id_marca);
 
 -- 3. O id_pro é um inteiro com 4 dígitos.
 ALTER TABLE Produto
-ALTER column id_pro NUMERIC(4);
+ALTER COLUMN id_pro NUMERIC(4);
 
 -- 4. A data do pedido é por padrão a data atual.
 ALTER TABLE Pedido
-ADD CONSTRAINT DF_Pedido_Data
-DEFAULT GETDATE() FOR data_pedido;
+ADD CONSTRAINT df_data_pedido
+DEFAULT GETDATE() FOR data_pedido; 
 
 -- 5. No mesmo pedido, não pode haver mais de uma venda do mesmo produto.
 ALTER TABLE ItemPedido
-ADD CONSTRAINT UC_Pedido_Produto UNIQUE (id_pedido, id_pro);
+ADD CONSTRAINT unc_pedido_produto UNIQUE (id_pedido, id_pro);
 
 -- 6. Se o preço de um item vendido é superior a 1000 então a quantidade vendida tem de ser menor que 100.
 ALTER TABLE ItemPedido
-ADD constraint item_pedido_vl_unit_qtde CHECK (vl_unit <= 1000 OR qtde < 100);
+ADD CONSTRAINT chk_vl_unit_qtde CHECK((vl_unit > 1000 AND qtde < 100) OR (vl_unit <= 1000));
 
 -- 7. O valor total do Estoque de cada Produto não pode exceder os 250.000 (considerando o preço de venda).
 ALTER TABLE Produto
-ADD CONSTRAINT x CHECK((estoque * preco) <= 250000);
+ADD CONSTRAINT chk_vl_estoque CHECK((estoque * preco) <= 250000);
