@@ -1,6 +1,6 @@
 CREATE DATABASE ex005;
 GO;
-USE Aula004;
+USE ex005;
 
 -- 1. Crie um novo BD e as seguintes tabelas, observando suas restrições de integridade:
 --  a) Cidade do Fabricante tem valor padrão como sendo ‘FRANCA’
