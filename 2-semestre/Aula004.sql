@@ -72,7 +72,7 @@ VALUES
 
 -- ============================================================
 -- 3. Funções
--- Sempre que tiver uma função select junto com algum campo,
+-- Sempre que tiver uma função no select junto com algum campo,
 -- deverá ter um GROUP BY com esses campos.
 -- ============================================================
 
@@ -233,3 +233,95 @@ GROUP BY posicao;
 SELECT nome, salario
 FROM Jogador
 WHERE salario > (SELECT AVG(salario) FROM Jogador); -- subselect
+
+-- Quantidade de jogadores por time
+SELECT
+    t.nome AS time,
+    COUNT(*) AS qtdeJogadores
+FROM Time t
+INNER JOIN Jogador j
+    ON t.idTime = j.idTime
+GROUP BY t.nome;
+
+-- Média salarial por time
+SELECT
+    t.nome AS time,
+    AVG(j.salario) AS mediaSalarial
+FROM Time t
+INNER JOIN Jogador j
+    ON t.idTime = j.idTime
+GROUP BY t.nome
+-- HAVING COUNT(*) = 3;
+
+
+-- ============================================================
+-- 12. HAVING
+-- WHERE filtra registros
+-- HAVING filtra agrupamentos
+-- ============================================================
+
+-- Posições com média salarial acima de 70.000
+SELECT
+    posicao,
+    AVG(salario) AS mediaSalarial
+FROM Jogador
+GROUP BY posicao
+HAVING AVG(salarial) > 70000
+
+
+-- ============================================================
+-- 13. WHERE + GROUP BY + HAVING
+-- WHERE -> filtra ANTES do agrupamento
+-- HAVING -> filtra DEPOIS do agrupamento
+-- ============================================================
+
+SELECT
+    posicao,
+    AVG(salario) AS mediaSalarial
+FROM Jogador
+WHERE salario > 50000
+GROUP BY posicao
+HAVING AVG(salario) > 70000;
+
+
+-- ============================================================
+-- 14. SUBSELECT COM IN
+-- Jogadores dos times do estado de SP
+-- ============================================================
+
+-- Execute primeiro apenas o subselect para visualizar o resultado:
+SELECT idTime
+FROM Time
+WHERE estado = 'SP';
+
+-- Agora usando o subselect:
+SELECT *
+FROM Jogador
+WHERE idTime IN
+(
+    SELECT idTime
+    FROM Time
+    WHERE estado = 'SP'
+);
+
+-- Sem subselect:
+SELECT j.*
+FROM Time t
+INNER JOIN Jogador j
+ON t.idTime = j.idTime
+WHERE t.estado = 'SP';
+
+
+-- ============================================================
+-- 15. SUBSELECT COM NOT IN
+-- Jogadores que NÃO são dos times do estado de SP
+-- ============================================================
+
+SELECT *
+FROM Jogador
+WHERE idTime NOT IN
+(
+    SELECT idTime
+    FROM Time
+    WHERE estado = 'SP'
+);
