@@ -111,7 +111,14 @@ ON f.CodDepto = d.CodDepto
 GROUP BY d.Nome;
 
 -- 9. Liste os departamentos dos funcionários que têm a função de supervisor
-
+SELECT
+    DISTINCT(d.Nome) AS departamento,
+    f.PrimeiroNome AS supervisor
+FROM Depto d
+INNER JOIN Func f
+ON d.codFunc = f.CodFunc
+WHERE f.Funcao = 'Supervisor';
 
 -- 10. Liste a quantidade de funcionários desta empresa
-
+SELECT COUNT(*) AS qtdeFuncionarios
+FROM Func;
