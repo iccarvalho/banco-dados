@@ -112,13 +112,30 @@ GROUP BY d.Nome;
 
 -- 9. Liste os departamentos dos funcionários que têm a função de supervisor
 SELECT
-    DISTINCT(d.Nome) AS departamento,
-    f.PrimeiroNome AS supervisor
+    d.Nome AS departamento,
+    f.PrimeiroNome AS supervisor,
+    Funcao
 FROM Depto d
 INNER JOIN Func f
 ON d.codFunc = f.CodFunc
 WHERE f.Funcao = 'Supervisor';
 
+-- Usando subselect
+SELECT *
+FROM Depto
+WHERE codDepto IN (SELECT codDepto FROM Func WHERE Funcao = 'SUPERVISOR')
+
 -- 10. Liste a quantidade de funcionários desta empresa
 SELECT COUNT(*) AS qtdeFuncionarios
 FROM Func;
+
+-- 11. Liste o salário médio pago pela empresa
+
+
+-- 12. Liste a quantidade de funcionários que trabalham em cada departamento
+
+
+-- 12+1. Liste o menor salário pago pela empresa em cada departamento
+
+
+-- 14. Liste o nome completo de todos os funcionários que não tenham segundo nome.
