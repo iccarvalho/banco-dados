@@ -130,12 +130,39 @@ SELECT COUNT(*) AS qtdeFuncionarios
 FROM Func;
 
 -- 11. Liste o salário médio pago pela empresa
-
+SELECT AVG(Salario) AS mediaSalarial
+FROM FUNC;
 
 -- 12. Liste a quantidade de funcionários que trabalham em cada departamento
-
+SELECT
+    d.Nome AS departamento,
+    COUNT(*) AS qtdeFuncionarios
+FROM Func f
+INNER JOIN Depto d
+ON f.CodDepto = d.CodDepto
+GROUP BY d.Nome;
 
 -- 12+1. Liste o menor salário pago pela empresa em cada departamento
-
+SELECT
+    MIN(f.Salario) AS menorSalario,
+    d.Nome AS departamento
+FROM Func f
+INNER JOIN Depto d
+ON f.CodDepto = d.CodDepto
+GROUP BY d.Nome;
 
 -- 14. Liste o nome completo de todos os funcionários que não tenham segundo nome.
+SELECT
+    CONCAT(PrimeiroNome, ' ', UltimoNome) AS nomeCompleto
+FROM Func
+WHERE ISNULL(SegundoNome, '') = '';
+
+-- 14,5. Liste os nomes dos funcionários e os nomes de seus gerentes
+SELECT
+    f.PrimeiroNome AS funcionario,
+    g.PrimeiroNome AS gerente
+FROM Func f
+INNER JOIN Depto d
+    ON f.CodDepto = d.CodDepto
+INNER JOIN Func g
+    ON f.CodFunc = g.CodigoFuncionarioGerente;
