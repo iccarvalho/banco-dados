@@ -190,8 +190,20 @@ VALUES
 --========================================
 
 -- 1. Liste a quantidade total de participantes cadastrados em cada estado (UF). Exiba a UF e a quantidade de participantes, ordenando do estado com maior quantidade para o de menor quantidade.
+SELECT
+  uf,
+  COUNT(*) AS totalParticipante
+FROM participante
+GROUP BY uf
+ORDER BY COUNT(*) DESC
 
--- 2. Liste o tipo de prova e a média de duração das provas de cada tipo. Exiba somente os tipos de prova cuja média de duração seja superior a 60 minutos.
+-- 2. Liste o tipo de prova e a média de duração das provas de cada tipo. Exiba somente os tipos de prova cuja média de duração seja superior a 120 minutos.
+SELECT
+  tipo,
+  AVG(tempo_minutos) AS duracaoMedia
+FROM prova
+GROUP BY tipo
+HAVING AVG(tempo_minutos) > 120
 
 -- 3. Liste o nome dos participantes e a quantidade de pratos preparados por cada um. Exiba somente os participantes que tenham preparado mais de 2 pratos.
 
