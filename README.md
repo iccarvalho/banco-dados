@@ -1,2 +1,2 @@
 # banco-dados
-Disciplina de Banco de Dados I
+Disciplina de Banco de Dados I e II
